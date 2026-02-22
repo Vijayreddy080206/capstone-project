@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: forensics_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build: .
+    container_name: forensics_backend
+    ports:
+      - "5000:5000"
+    environment:
+      # This tells the backend to connect to the Docker MongoDB, not your local one!
+      - MONGO_URI=mongodb://mongodb:27017/myAppDB
+    depends_on:
+      - mongodb
+
+  frontend:
+    build: ./client
+    container_name: forensics_frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:

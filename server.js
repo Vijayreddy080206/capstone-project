@@ -11,7 +11,7 @@ const client = new OAuth2Client("170992401986-snebs5vrc4c56tdsd03v99halkhiig9r.a
 app.use(cors());
 app.use(express.json()); 
 
-const mongoURI = 'mongodb://127.0.0.1:27017/myAppDB';
+const mongoURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/myAppDB';
 
 mongoose.connect(mongoURI)
   .then(() => console.log('✅ Successfully connected to MongoDB!'))
